@@ -98,6 +98,8 @@
    <addaction name="separator"/>
    <addaction name="actionClear_all_activities"/>
    <addaction name="separator"/>
+   <addaction name="actionView_Completed_Activities"/>
+   <addaction name="actionView_Uncompleted_Activities"/>
   </widget>
   <action name="actionNew">
    <property name="icon">
@@ -142,6 +144,30 @@
    </property>
    <property name="text">
     <string>Clear all activities</string>
+   </property>
+  </action>
+  <action name="actionView_Uncompleted_Activities">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/icons/unchecked.png</normaloff>:/icons/unchecked.png</iconset>
+   </property>
+   <property name="text">
+    <string>View Uncompleted Activities</string>
+   </property>
+  </action>
+  <action name="actionView_Completed_Activities">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/icons/checked.png</normaloff>:/icons/checked.png</iconset>
+   </property>
+   <property name="text">
+    <string>View Completed Activities</string>
    </property>
   </action>
  </widget>

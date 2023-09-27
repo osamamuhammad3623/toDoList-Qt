@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     emit n_activities_changed(n_activities);
 }
 
+
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -73,70 +74,69 @@ void MainWindow::on_actionLoad_Activities_triggered()
 {
     // let the user choose the JSON document
     QFileDialog fileDialog;
-    fileDialog.setFileMode(QFileDialog::AnyFile);
-    QString path{};
-    if(fileDialog.exec()){
-        path = fileDialog.selectedFiles()[0];
-        if(!path.endsWith("activities")){
-            return;
-        }
-        QFile file(path);
-        file.open(QIODevice::ReadOnly);
-        QString line;
-        QString content{}; // content of the JSON file
-        QTextStream inStream(&file);
-        while(inStream.readLineInto(&line)){
-            content += line;
-        }
-
-        // convert from JSON file to a JSON Document object
-        QJsonDocument doc = QJsonDocument::fromJson(QByteArray::fromStdString(content.toStdString()));
-        // parse from the JSON Document into a JSON array
-        QJsonArray activitiesArray = doc.array();
-
-        // parse number of activities from JSON and update variables & table size
-        n_activities = activitiesArray[0].toInt();
-        emit n_activities_changed(n_activities);
-        ui->table->setRowCount(n_activities);
-        // clear the m_activities vector and resize it to fit the newly parsed n_activities
-        m_activities.clear();
-        m_activities.resize(n_activities);
-
-        // a temp JSON Object to hold 1 JSON record from the array at a time, to be able to parse
-        QJsonObject tempObj;
-
-        for(int i=0; i< n_activities;i++){
-            tempObj = activitiesArray[i+1].toObject();
-
-            // parse & set the text of the Activity column            
-            QTableWidgetItem* ActivityItemPtr = new QTableWidgetItem();
-            ActivityItemPtr->setText(tempObj["Activity"].toString());
-            // let the pointer points to the table item
-            ui->table->setItem(i,0,ActivityItemPtr);
-            // hold a pointer to the item in m_activities vector
-            get<0>(m_activities[i]) = ui->table->item(i,0);
-
-            QTableWidgetItem* DescItemPtr = new QTableWidgetItem();
-            DescItemPtr->setText(tempObj["Description"].toString());
-            // let the pointer points to the table item
-            ui->table->setItem(i,1,DescItemPtr);
-            // hold a pointer to the item in m_activities vector
-            get<1>(m_activities[i]) = ui->table->item(i,1);
-
-            QCheckBox* CheckboxItemPtr = new QCheckBox();
-            CheckboxItemPtr->setText("is Completed ?");
-            if (tempObj["Done"] == true){
-                CheckboxItemPtr->setChecked(true);
-            }else{
-                CheckboxItemPtr->setChecked(false);
-            }
-            ui->table->setCellWidget(i,2,CheckboxItemPtr);
-            // hold a pointer to the item in m_activities vector, but cast it to QCheckBox* first
-            get<2>(m_activities[i]) = (QCheckBox*)(ui->table->item(i,2));
-        }
-
-        file.close();
+    QString path = QFileDialog::getOpenFileName(this,"Open", "", "Any File (*)");
+    if(path.isEmpty()){
+        return;
     }
+    if(!path.endsWith("activities")){
+        return;
+    }
+    QFile file(path);
+    file.open(QIODevice::ReadOnly);
+    QString line;
+    QString content{}; // content of the JSON file
+    QTextStream inStream(&file);
+    while(inStream.readLineInto(&line)){
+    content += line;
+    }
+
+    // convert from JSON file to a JSON Document object
+    QJsonDocument doc = QJsonDocument::fromJson(QByteArray::fromStdString(content.toStdString()));
+    // parse from the JSON Document into a JSON array
+    QJsonArray activitiesArray = doc.array();
+
+    // parse number of activities from JSON and update variables & table size
+    n_activities = activitiesArray[0].toInt();
+    emit n_activities_changed(n_activities);
+    ui->table->setRowCount(n_activities);
+    // clear the m_activities vector and resize it to fit the newly parsed n_activities
+    m_activities.clear();
+    m_activities.resize(n_activities);
+
+    // a temp JSON Object to hold 1 JSON record from the array at a time, to be able to parse
+    QJsonObject tempObj;
+
+    for(int i=0; i< n_activities;i++){
+        tempObj = activitiesArray[i+1].toObject();
+
+        // parse & set the text of the Activity column
+        QTableWidgetItem* ActivityItemPtr = new QTableWidgetItem();
+        ActivityItemPtr->setText(tempObj["Activity"].toString());
+        // let the pointer points to the table item
+        ui->table->setItem(i,0,ActivityItemPtr);
+        // hold a pointer to the item in m_activities vector
+        get<0>(m_activities[i]) = ui->table->item(i,0);
+
+        QTableWidgetItem* DescItemPtr = new QTableWidgetItem();
+        DescItemPtr->setText(tempObj["Description"].toString());
+        // let the pointer points to the table item
+        ui->table->setItem(i,1,DescItemPtr);
+        // hold a pointer to the item in m_activities vector
+        get<1>(m_activities[i]) = ui->table->item(i,1);
+
+        QCheckBox* CheckboxItemPtr = new QCheckBox();
+        CheckboxItemPtr->setText("is Completed ?");
+        if (tempObj["Done"] == true){
+            CheckboxItemPtr->setChecked(true);
+        }else{
+            CheckboxItemPtr->setChecked(false);
+        }
+        ui->table->setCellWidget(i,2,CheckboxItemPtr);
+        // hold a pointer to the item in m_activities vector, but cast it to QCheckBox* first
+        get<2>(m_activities[i]) = CheckboxItemPtr;
+    }
+
+    file.close();
 }
 
 void MainWindow::on_actionRemove_activity_triggered()
@@ -166,3 +166,34 @@ void MainWindow::on_actionClear_all_activities_triggered()
     n_activities = 0;
     emit n_activities_changed(n_activities);
 }
+
+void MainWindow::on_actionView_Uncompleted_Activities_changed()
+{
+    bool uncompleted_only = ui->actionView_Uncompleted_Activities->isChecked();
+
+    for(int i=0; i< n_activities;i++){
+        if(uncompleted_only && (get<2>(m_activities[i])->isChecked())){
+            ui->table->hideRow(i);
+
+        }else if((!uncompleted_only) && (get<2>(m_activities[i])->isChecked())){
+            ui->table->showRow(i);
+        }
+    }
+
+}
+
+
+void MainWindow::on_actionView_Completed_Activities_changed()
+{
+    bool completed_only = ui->actionView_Completed_Activities->isChecked();
+
+    for(int i=0; i< n_activities;i++){
+        if(completed_only && (!(get<2>(m_activities[i])->isChecked()))){
+            ui->table->hideRow(i);
+
+        }else if((!completed_only) && (!(get<2>(m_activities[i])->isChecked()))){
+            ui->table->showRow(i);
+        }
+    }
+}
+
