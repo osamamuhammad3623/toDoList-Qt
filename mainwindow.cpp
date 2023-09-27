@@ -96,7 +96,11 @@ void MainWindow::on_actionLoad_Activities_triggered()
 
         // parse number of activities from JSON and update variables & table size
         n_activities = activitiesArray[0].toInt();
+        emit n_activities_changed(n_activities);
         ui->table->setRowCount(n_activities);
+        // clear the m_activities vector and resize it to fit the newly parsed n_activities
+        m_activities.clear();
+        m_activities.resize(n_activities);
 
         // a temp JSON Object to hold 1 JSON record from the array at a time, to be able to parse
         QJsonObject tempObj;
