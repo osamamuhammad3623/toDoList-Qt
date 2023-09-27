@@ -44,6 +44,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     int n_activities{0};
+    // a vector that holds pointers to each table cell
     QVector<tuple<QTableWidgetItem*,QTableWidgetItem*,QCheckBox*>> m_activities{n_activities};
 
 };
