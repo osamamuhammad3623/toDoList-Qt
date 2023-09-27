@@ -1,1 +1,1 @@
-# toDoList-Qt
+# Qt To-Do List application
