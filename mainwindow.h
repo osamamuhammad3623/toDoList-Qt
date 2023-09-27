@@ -24,6 +24,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
 
 signals:
@@ -41,6 +42,11 @@ private slots:
     void on_n_activities_changed(int n);
 
     void on_actionClear_all_activities_triggered();
+
+    void on_actionView_Uncompleted_Activities_changed();
+
+    void on_actionView_Completed_Activities_changed();
+
 private:
     Ui::MainWindow *ui;
     int n_activities{0};
