@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>714</width>
+    <height>511</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="2" column="0">
+       <widget class="QTableWidget" name="table">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>250</number>
+        </attribute>
+        <attribute name="horizontalHeaderHighlightSections">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>Activity</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Description</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Status</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="activitiesLabel">
+        <property name="font">
+         <font>
+          <pointsize>15</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>All activities</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>714</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNew"/>
+   <addaction name="actionRemove_activity"/>
+   <addaction name="separator"/>
+   <addaction name="actionSave_activities"/>
+   <addaction name="actionLoad_Activities"/>
+   <addaction name="separator"/>
+   <addaction name="actionClear_all_activities"/>
+   <addaction name="separator"/>
+   <addaction name="actionView_Completed_Activities"/>
+   <addaction name="actionView_Uncompleted_Activities"/>
+  </widget>
+  <action name="actionNew">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/new.png</normaloff>:/new.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add a new activity</string>
+   </property>
+  </action>
+  <action name="actionSave_activities">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/save.png</normaloff>:/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save activities</string>
+   </property>
+  </action>
+  <action name="actionRemove_activity">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/remove.png</normaloff>:/remove.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove current activity</string>
+   </property>
+  </action>
+  <action name="actionLoad_Activities">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/load.png</normaloff>:/load.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load Activities</string>
+   </property>
+  </action>
+  <action name="actionClear_all_activities">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/clear.png</normaloff>:/clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clear all activities</string>
+   </property>
+  </action>
+  <action name="actionView_Uncompleted_Activities">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/unchecked.png</normaloff>:/unchecked.png</iconset>
+   </property>
+   <property name="text">
+    <string>View Uncompleted Activities</string>
+   </property>
+  </action>
+  <action name="actionView_Completed_Activities">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/checked.png</normaloff>:/checked.png</iconset>
+   </property>
+   <property name="text">
+    <string>View Completed Activities</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
